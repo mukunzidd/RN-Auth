@@ -14,13 +14,14 @@ const CardSection = (props) => {
 // Styles
 const styles = {
     containerStyle: {
-        borderBottomWidth: 1,
-        borderColor: '#ddd',
-        backgroundColor: '#fff',
+        justifyContent: 'center',
+        alignItems: 'center',
+        margin: 4,
         alignItems: 'center',
         flexDirection: 'row',
         position: 'relative',
         elevation: 1,
+        height: 50,
     }
 };
 

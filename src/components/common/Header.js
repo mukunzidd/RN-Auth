@@ -16,7 +16,8 @@ const Header = (props) => {
 // Styles
 const styles = {
     textStyle: {
-        fontSize: 25,
+        fontSize: 30,
+        fontWeight: 'bold',
         paddingTop: 25,
         color: 'purple',
     },
