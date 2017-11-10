@@ -3,6 +3,7 @@ import { View, Button, Text, TextInput } from 'react-native';
 import { Card, CardSection } from './common';
 
 class LoginForm extends Component {
+    state = { text: '' };
     render() {
         return (
             <View>
@@ -19,7 +20,8 @@ class LoginForm extends Component {
                                 borderBottomColor: '#fff',
                                 textAlign: 'center'
                             }}
-                        onChangeText={(text) => this.setState({ text })}
+                        value ={ this.state.text}
+                        onChangeText={text => this.setState({ text })}
                     /* value={''} */
                     />
                 </CardSection>
@@ -37,7 +39,7 @@ class LoginForm extends Component {
                                 textAlign: 'center'
                             }}
                         onChangeText={(text) => this.setState({ text })}
-                    /* value={''} */
+                    value={this.state.text}
                     />
                 </CardSection>
                 <View style={{ borderBottomColor: 'purple', height: 40, marginLeft: 50, marginRight: 50 }}>
