@@ -18,11 +18,11 @@ export default class App extends React.Component {
   }
   render() {
     return (
-      <View style={styles.container}>
+      <View>
         <Header headerText={'RN-Auth'} />
-        <Card>
+        <View style={styles.container}>
           <LoginForm />
-        </Card>
+        </View>
       </View>
     );
   }
@@ -30,5 +30,10 @@ export default class App extends React.Component {
 
 const styles = StyleSheet.create({
   container: {
+    marginTop: 100,
+    marginLeft: 50,
+    marginRight: 50,
   },
+  loginStyle: {
+  }
 });

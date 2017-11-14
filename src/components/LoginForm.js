@@ -1,56 +1,76 @@
 import React, { Component } from 'react';
-import { View, Button, Text, TextInput } from 'react-native';
+import { View, Button, Text, TextInput, ActivityIndicator } from 'react-native';
 import { Card, CardSection } from './common';
+import firebase from 'firebase';
 
 class LoginForm extends Component {
-    state = { text: '' };
+    state = { email: '', password: '', error: '', loading: false };
+
+    // Login event helper fx
+    onButtonPress() {
+        const { email, password, loading } = this.state;
+        this.setState({ error: '', loading: true })
+
+        firebase.auth().signInWithEmailAndPassword(email, password)
+            .then(() => {
+                this.setState({ loading: false })
+                alert('Yeahh what bruh?')
+            })
+            .catch(() => {
+                firebase.auth().createUserWithEmailAndPassword(email, password)
+                    .then(() => {
+                        this.setState({ loading: false })
+                    })
+                    .catch(() => {
+                        this.setState({ error: 'Things went downhill bruh...', loading: false })
+                    });
+            });
+    }
+
+    // Button rendring helper
+    renderButton() {
+        if (this.state.loading) {
+            return <ActivityIndicator animating={this.state.loading} size={'large'} />
+        } else {
+
+            return <View style={{ borderBottomColor: 'purple', height: 40, marginLeft: 50, marginTop: 40, marginRight: 50 }}>
+
+                <Button
+                    onPress={this.onButtonPress.bind(this)}
+                    title="Login"
+                    color="purple"
+                />
+            </View>
+        }
+    }
+
     render() {
+        const { errorTextStyle, inputStyle } = styles;
         return (
             <View>
                 <CardSection>
+                    {/* <Text>Email</Text> */}
                     <TextInput
-                        style={
-                            {
-                                flex: 1,
-                                padding: 10,
-                                fontSize: 25,
-                                height: 40,
-                                borderColor: 'green',
-                                borderBottomWidth: 2,
-                                borderBottomColor: '#fff',
-                                textAlign: 'center'
-                            }}
-                        value ={ this.state.text}
-                        onChangeText={text => this.setState({ text })}
-                    /* value={''} */
+                        style={inputStyle}
+                        value={this.state.email}
+                        onChangeText={email => this.setState({ email })}
+                        value={this.state.email}
+                        placeholder={'user@email.com'}
                     />
                 </CardSection>
                 <CardSection>
+                    {/* <Text>Password</Text> */}
                     <TextInput
-                        style={
-                            {
-                                flex: 1,
-                                padding: 10,
-                                fontSize: 25,
-                                height: 40,
-                                borderColor: 'green',
-                                borderBottomWidth: 2,
-                                borderBottomColor: '#fff',
-                                textAlign: 'center'
-                            }}
-                        onChangeText={(text) => this.setState({ text })}
-                    value={this.state.text}
+                        style={inputStyle}
+                        onChangeText={password => this.setState({ password })}
+                        value={this.state.password}
+                        placeholder={'passWORD'}
+                        secureTextEntry
                     />
                 </CardSection>
-                <View style={{ borderBottomColor: 'purple', height: 40, marginLeft: 50, marginRight: 50 }}>
-
-                    <Button
-                        onPress={() => { alert('Nat Happenin!!') }}
-                        title="Login"
-                        color="purple"
-                    />
-                </View>
-            </View>
+                <Text style={errorTextStyle}>{this.state.error}</Text>
+                {this.renderButton()}
+            </View >
         );
     }
 }
@@ -58,10 +78,19 @@ class LoginForm extends Component {
 // Styles
 const styles = {
     inputStyle: {
-        height: 40,
-        borderColor: 'red',
-        paddingLeft: 10,
-        width: 100,
+        flex: 1,
+        padding: 10,
+        fontSize: 20,
+        height: 50,
+        // borderColor: 'green',
+        // borderBottomWidth: 2,
+        // borderBottomColor: '#fff',
+        textAlign: 'center'
+    },
+    errorTextStyle: {
+        color: 'red',
+        alignSelf: 'center',
+        fontSize: 20,
     }
 };
 

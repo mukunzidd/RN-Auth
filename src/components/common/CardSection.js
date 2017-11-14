@@ -20,7 +20,7 @@ const styles = {
         alignItems: 'center',
         flexDirection: 'row',
         position: 'relative',
-        elevation: 1,
+        // elevation: 1,
         height: 50,
     }
 };
