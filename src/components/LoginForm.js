@@ -12,19 +12,21 @@ class LoginForm extends Component {
         this.setState({ error: '', loading: true })
 
         firebase.auth().signInWithEmailAndPassword(email, password)
-            .then(() => {
-                this.setState({ loading: false })
-                alert('Yeahh what bruh?')
-            })
+            .then(this.onLoginSuccess.bind(this))
             .catch(() => {
                 firebase.auth().createUserWithEmailAndPassword(email, password)
-                    .then(() => {
-                        this.setState({ loading: false })
-                    })
-                    .catch(() => {
-                        this.setState({ error: 'Things went downhill bruh...', loading: false })
-                    });
+                    .then(this.onLoginSuccess.bind(this))
+                    .catch(this.onLoginFail.bind(this));
             });
+    }
+
+    // after login helpers
+    onLoginSuccess() {
+        this.setState({ loading: false, email: '', password: '', error: '' })
+    }
+
+    onLoginFail() {
+        this.setState({ error: 'Things went downhill bruh...', loading: false, password: '' })
     }
 
     // Button rendring helper
