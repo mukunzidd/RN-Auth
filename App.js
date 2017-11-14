@@ -1,12 +1,12 @@
 import React from 'react';
-import { StyleSheet, View, Button, Text } from 'react-native';
+import { StyleSheet, View, Button, Text, ActivityIndicator } from 'react-native';
 import { Header, Card } from './src/components/common';
 import firebase from 'firebase';
 import LoginForm from './src/components/LoginForm';
 
 export default class App extends React.Component {
   // Definet eh state Object
-  state = { loggedIn: false };
+  state = { loggedIn: null };
 
   componentWillMount() {
 
@@ -46,22 +46,27 @@ export default class App extends React.Component {
 
   // Render Content Helper
   renderContent() {
-    if (this.state.loggedIn) {
-      return (
-        <View>
-          <Button
-            onPress={this.logOut.bind(this)}
-            title="Log Out"
-            color="purple"
-          />
-          <Text>
-            Asoka
+
+    switch (this.state.loggedIn) {
+      case true:
+        return (
+          <View>
+            <Button
+              onPress={this.logOut.bind(this)}
+              title="Log Out"
+              color="purple"
+            />
+            <Text>
+              Asoka
           </Text>
-        </View>
-      );
+          </View>
+        );
+      case false:
+        return <LoginForm />
+      default:
+        return <ActivityIndicator animating size={'large'} />
     }
 
-    return <LoginForm />
   }
 
   render() {
